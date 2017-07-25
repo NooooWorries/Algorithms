@@ -1,24 +1,28 @@
+import java.util.*;
 public class InsertionSort
 {
 	public static void main(String[] args) 
 	{		
-		int array[] = {4,6,7,2,3,5,12,8,4,15};
-		int length = array.length;
-		for (int i = 1; i < length; i ++)
+		Random random = new Random();
+		int[] array = new int[100000];
+		
+		for (int i = 0; i < array.length; i++)
 		{
-			if (array[i - 1] > array [i])
+			array[i] = random.nextInt();
+		}
+		
+		for (int i = 1; i < array.length; i ++)
+		{
+			for (int j = i; j > 0 && array[j] < array[j-1]; j --)
 			{
-				int temp = array[i];
-				int j = i;
-				while (j > 0 && array[j - 1] > temp)
-				{
-					array[j] = array[j - 1];
-					j --;
-				}
-				array[j] = temp;
+				int temp = array[j];
+				array[j] = array[j-1];
+				array[j-1] = temp;
 			}
 		}
+		
 		for (int i = 0; i < length; i++)
 			System.out.println(array[i]);
+		
 	}
 }
