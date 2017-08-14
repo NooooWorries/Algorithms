@@ -15,30 +15,46 @@ public class BinarySearchTree<Object extends Comparable<? super Object>>
 		nodes = 1;
 	}
 	
-	
-	
-	public void inOrder(Node<Object> node)
+	/*
+	 * 1: in order
+	 * 2: pre order
+	 * 3: post order
+	*/
+	public void print()
 	{
-		inOrder(node.getLeft());
+		inOrder(root);
+	}
+	
+	private void inOrder(Node<Object> node)
+	{
+		if (node != null)
+		{
+			inOrder(node.getLeft());
+			System.out.println(node.getData());
+			inOrder(node.getRight());
+		}
+	}
+	
+	private void preOrder(Node<Object> node)
+	{
 		System.out.println(node.getData());
+		inOrder(node.getLeft());
 		inOrder(node.getRight());
 	}
 	
-	public void preOrder(Node<Object> node)
-	{
-		System.out.println(node.getData());
-		inOrder(node.getLeft());
-		inOrder(node.getRight());
-	}
-	
-	public void postOrder(Node<Object> node)
+	private void postOrder(Node<Object> node)
 	{
 		inOrder(node.getLeft());
 		inOrder(node.getRight());
 		System.out.println(node.getData());
 	}
 	
-	public int searchRecursion(Node<Object> node, Object key)
+	public int search(Object data)
+	{
+		return searchRecursion(root, data);
+	}
+	
+	private int searchRecursion(Node<Object> node, Object key)
 	{
 		if (node == null)
 			return 0;	
@@ -51,7 +67,7 @@ public class BinarySearchTree<Object extends Comparable<? super Object>>
 			return searchRecursion(node.getRight(), key);
 	}
 	
-	public Object searchIteration(Node<Object> node, Object key)
+	private Object searchIteration(Node<Object> node, Object key)
 	{
 		while (node != null || !key.equals(node.getData()))
 		{
@@ -81,36 +97,47 @@ public class BinarySearchTree<Object extends Comparable<? super Object>>
 		return node;
 	}
 	
-	public Node<Object> insert (Node<Object> node, Object data)
+	public void insert (Object data)
 	{
-		if (root == null)
+		internalInsert(root, data);
+	}
+	
+	public void delete (Object data)
+	{
+		internalDelete(root, key);
+	}
+	
+	private void internalDelete(Node<Object> node, Object key)
+	{
+		
+	}
+	
+	private void internalInsert (Node<Object> node, Object key)
+	{
+		Node<Object> parent = null;
+		while (node != null)
 		{
-			root = new Node(data, null, null, null);
-			return node;
-		}
-		else if (node == null)
-		{
-			node = new Node(data, null, null, node.getParent());
-			nodes ++;
-			return node;
-		}
-		else
-		{
-			int comparsion = data.compareTo(node.getData());
+			parent = node;
+			int comparsion = key.compareTo(node.getData());
 			if (comparsion < 0)
-				node= insert(node.getLeft(), data);
-			else if (comparsion > 0)
-				node = insert(node.getRight(), data);
+				node = node.getLeft();
 			else
-				node.setData(data);
-			return node;
+				node = node.getRight();
 		}
-	}
-	
-	public Node<Object> getRootNode()
-	{
-		return root;
-	}
-	
+		Node newNode = new Node();
+		newNode.setData(key);
+		
+		if (parent == null)
+			root = newNode;
+		else 
+		{
+			int comp = key.compareTo(parent.getData());
+			if (comp < 0)
+				parent.setLeft(newNode);
+			else
+				parent.setRight(newNode);
+			newNode.setParent(parent);
+		}	
+	}	
 	
 }
