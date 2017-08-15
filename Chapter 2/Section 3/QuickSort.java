@@ -12,12 +12,9 @@ public class QuickSort
 			array[i] = random.nextInt();
 		}
 		
-		shuffle(array);
+		//shuffle(array);
 		sort(array, 0, array.length - 1);
-		for(int i = 0; i < array.length; i++)
-		{
-			System.out.println(array[i]);
-		}
+		
 	}
 	
 	public static void shuffle (int[] array)

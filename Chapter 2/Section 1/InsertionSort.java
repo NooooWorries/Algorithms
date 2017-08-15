@@ -21,7 +21,7 @@ public class InsertionSort
 			}
 		}
 		
-		for (int i = 0; i < length; i++)
+		for (int i = 0; i < array.length; i++)
 			System.out.println(array[i]);
 		
 	}

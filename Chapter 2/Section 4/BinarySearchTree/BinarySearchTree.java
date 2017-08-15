@@ -67,20 +67,17 @@ public class BinarySearchTree<Object extends Comparable<? super Object>>
 			return searchRecursion(node.getRight(), key);
 	}
 	
-	private Object searchIteration(Node<Object> node, Object key)
+	private Node<Object> searchInternal(Node<Object> node, Object key)
 	{
-		while (node != null || !key.equals(node.getData()))
-		{
-			int comparsion = key.compareTo(node.getData());
-			if (comparsion < 0)
-				node = node.getLeft();
-			else
-				node = node.getRight();
-		}
 		if (node == null)
-			return null;
+			return null;	
+		if (key.equals(node.getData()))
+			return node;
+		int comparsion = key.compareTo(node.getData());
+		if (comparsion < 0)
+			return searchInternal(node.getLeft(), key);
 		else
-			return key;
+			return searchInternal(node.getRight(), key);
 	}
 	
 	public Node<Object> findMinimun(Node<Object> node)
@@ -102,14 +99,44 @@ public class BinarySearchTree<Object extends Comparable<? super Object>>
 		internalInsert(root, data);
 	}
 	
-	public void delete (Object data)
+	public void delete (Object key)
 	{
 		internalDelete(root, key);
 	}
 	
 	private void internalDelete(Node<Object> node, Object key)
 	{
+		Node target = searchInternal(root, key);
+		if (target == null) return;
 		
+		if (target.getLeft() == null && target.getRight() == null)
+		{
+			target = null;
+			nodes --;
+		}
+		else if (target.getLeft() != null && target.getRight() == null)
+		{
+			target.setData(target.getLeft().getData());
+			target.setLeft(null);
+			nodes --;
+		}
+		else if (target.getLeft() == null && target.getRight() != null)
+		{
+			target.setData(target.getRight().getData());
+			target.setRight(null);
+			nodes --;
+		}
+		else
+		{
+			Node parent = new Node();	
+			while (node != null)
+			{
+				parent = node;
+				node = node.getLeft();
+			}
+			target.setData(parent.getData());
+			parent.getParent().setLeft(null);
+		}
 	}
 	
 	private void internalInsert (Node<Object> node, Object key)
@@ -138,6 +165,9 @@ public class BinarySearchTree<Object extends Comparable<? super Object>>
 				parent.setRight(newNode);
 			newNode.setParent(parent);
 		}	
+		nodes++;
 	}	
+	
+	
 	
 }
