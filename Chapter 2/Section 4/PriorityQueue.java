@@ -2,14 +2,14 @@ import java.util.*;
 
 public class PriorityQueue
 {
-	private int[] queue; 
+	private int[] queue;
 	private int count = 0;
 	public static void main(String args[])
 	{
 		PriorityQueue priorityQueue = new PriorityQueue();
 		priorityQueue.run();
 	}
-	
+
 	public void run()
 	{
 		queue = new int[128000];
@@ -30,12 +30,12 @@ public class PriorityQueue
 		queue[i] = queue[j];
 		queue[j] = temp;
 	}
-	
+
 	private boolean less(int i, int j)
 	{
 		return queue[i] < queue[j];
 	}
-	
+
 	private void swim(int k)
 	{
 		while(k > 1 && less(k/2, k))
@@ -44,7 +44,7 @@ public class PriorityQueue
 			k = k/2;
 		}
 	}
-	
+
 	private void sink(int k)
 	{
 		while( 2 * k <= count)
@@ -58,20 +58,19 @@ public class PriorityQueue
 			k = j;
 		}
 	}
-	
+
 	public void insert(int k)
 	{
 		queue[++count] = k;
 		swim(count);
 	}
-	
+
 	public int deleteMax()
 	{
 		int max = queue[1];
 		exchange(1, count--);
 		sink(1);
 		return max;
-		
 	}
-		
+
 }
